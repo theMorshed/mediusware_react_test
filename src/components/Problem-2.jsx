@@ -5,6 +5,7 @@
 
         const [allContactsModalOpen, setAllContactsModalOpen] = useState(false);
         const [usContactsModalOpen, setUSContactsModalOpen] = useState(false);
+        const [detailsModalOpen, setDetailsModalOpen] = useState(false);
         const [checkboxChecked, setCheckboxChecked] = useState(false);
         const [allContacts, setAllContacts] = useState([]);
         const [usContacts, setUsContacts] = useState([]);
@@ -37,18 +38,34 @@
 
         const openAllContactsModal = () => {
             setAllContactsModalOpen(true);
+            // Change URL for "All Contacts" button click
+            window.history.pushState(null, null, '/all-contacts');
         };
 
         const closeAllContactsModal = () => {
             setAllContactsModalOpen(false);
+            // Revert the URL when the modal is closed
+            window.history.back();
         };
 
         const openUSContactsModal = () => {
             setUSContactsModalOpen(true);
+            // Change URL for "US Contacts" button click
+            window.history.pushState(null, null, '/us-contacts');
         };
 
         const closeUSContactsModal = () => {
             setUSContactsModalOpen(false);
+            // Revert the URL when the modal is closed
+            window.history.back();
+        };
+
+        const openDetailsModal = () => {
+            setDetailsModalOpen(true);
+        };
+
+        const closeDetailsModal = () => {
+            setDetailsModalOpen(false);
         };
 
         const handleCheckboxChange = () => {
@@ -103,10 +120,6 @@
                         onRequestClose={closeAllContactsModal}
                         contentLabel="All Contacts Modal"
                     >
-                        {/* Your modal content for All Contacts */}
-                        <button className="btn btn-outline-primary">All Contacts</button>
-                        <button className="btn btn-outline-primary">US Contacts</button>
-                        {/* Add other content here */}
                         <button className="btn btn-outline-warning" onClick={closeAllContactsModal}>Close Modal</button>
 
                         {/* Display contacts from API */}
@@ -127,7 +140,7 @@
                                         <th scope="row">{contact.id}</th>
                                         <td>{contact.phone}</td>
                                         <td>{contact.country.name}</td>
-                                        <td><button className="btn btn-outline-info">Details</button></td>
+                                        <td><button onClick={openDetailsModal} className="btn btn-outline-info">Details</button></td>
                                     </tr> 
                                 ))}
                                                         
@@ -135,7 +148,7 @@
                         </table>    
 
                         {/* Checkbox in the footer */}
-                        <div className="modal-footer">
+                        <div className="modal-footer justify-content-start">
                             <label>
                                 <input
                                 type="checkbox"
@@ -145,7 +158,7 @@
                                 Only even
                             </label>
                         </div>
-                    </ReactModal>
+                    </ReactModal>                   
 
                     {/* US Contacts Modal */}
                     <ReactModal
@@ -153,10 +166,6 @@
                         onRequestClose={closeUSContactsModal}
                         contentLabel="US Contacts Modal"
                     >
-                        {/* Your modal content for All Contacts */}
-                        <button className="btn btn-outline-primary">All Contacts</button>
-                        <button className="btn btn-outline-primary">US Contacts</button>
-                        
                         {/* Add other content here */}
                         <button className="btn btn-outline-warning" onClick={closeUSContactsModal}>Close Modal</button>
 
@@ -178,7 +187,7 @@
                                         <th scope="row">{contact.id}</th>
                                         <td>{contact.phone}</td>
                                         <td>{contact.country.name}</td>
-                                        <td><button className="btn btn-outline-info">Details</button></td>
+                                        <td><button onClick={openDetailsModal} className="btn btn-outline-info">Details</button></td>
                                     </tr> 
                                 ))}
                                                         
@@ -186,7 +195,7 @@
                         </table>   
 
                         {/* Checkbox in the footer */}
-                        <div className="modal-footer">
+                        <div className="modal-footer justify-content-start">
                             <label>
                                 <input
                                 type="checkbox"
@@ -196,6 +205,23 @@
                                 Only even
                             </label>
                         </div>
+                    </ReactModal>
+
+                     {/* Details Modal */}
+                    <ReactModal
+                        isOpen={detailsModalOpen}
+                        onRequestClose={closeDetailsModal}
+                        contentLabel="Details Modal"
+                    >
+                        {/* Add other content here */}
+                        <button className="btn btn-outline-warning" onClick={closeDetailsModal}>Close Modal</button>
+
+                        {/* Display details from API */}
+                        <ul>
+                            <li>ID: 1</li>
+                            <li>Phone Number: +1-202-555-0145</li>
+                            <li>Country: United States</li>
+                        </ul>
                     </ReactModal>
 
                 </div>
